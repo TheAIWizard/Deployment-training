@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bdd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bdd
+  template:
+    metadata:
+      labels:
+        app: bdd
+    spec:
+      containers:
+      - name: bdd
+        image: postgres:14.4
+        env:
+          - name: POSTGRES_PASSWORD
+            value: bdjyndghhf
+        
