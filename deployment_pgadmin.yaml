@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pgadmin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pgadmin
+  template:
+    metadata:
+      labels:
+        app: pgadmin
+    spec:
+      containers:
+      - name: pgadmin
+        image: dpage/pgamin4
+      env:
+        - name: PGADMIN_DEFAULT_EMAIL
+          value: user@domain.com
+        - name: PGADMIN_DEFAULT_PASSWORD
+          value: qsfqs56f1s5f
+        - name: PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION
+          value: "True"
+        - name: PGADMIN_CONFIG_CONSOLE_LOG_LEVEL
+          value: "10"
