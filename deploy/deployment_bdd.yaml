@@ -1,21 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bdd
+  name: postgres-persistence
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: bdd
+      app: postgres-persistence
   template:
     metadata:
       labels:
-        app: bdd
+        app: postgres-persistence
     spec:
+      initContainers:
+        - name: postgres-persistence
+          image: postgres:14.4
+          env:
+          - name: POSTGRES_PASSWORD
+            value: bdjyndghhf
+          volumeMounts:
+            - name: postgres-persistence-volume
+              mountPath: /docker-entrypoint-initdb.d 
+              subPath: toto
+
+            
       containers:
-      - name: bdd
+      - name: postgres-persistence
         image: postgres:14.4
         env:
           - name: POSTGRES_PASSWORD
             value: bdjyndghhf
-        
+        volumeMounts:
+        - name: postgres-persistence-volume
+          mountPath: /var/lib/postgresql/data
+          subPath: toto
+      volumes:
+      - name: postgres-persistence-volume
+        persistentVolumeClaim:
+          claimName: pvc
